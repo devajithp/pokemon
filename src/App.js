@@ -56,7 +56,7 @@ const[eachData,setEachData]=useState()
   }
   return (
     <div className="App container">
-      <h1>Pokemon</h1>
+      <h1 style={{marginTop:"20px"}}>Pokemon</h1>
      <header>
       <div className='row'>
         <div className='col-md-6'>
@@ -73,7 +73,7 @@ const[eachData,setEachData]=useState()
        {
         return(
           <div className='col-md-3' style={{marginTop:"10px"}}>
-            <div onClick={()=>handleDetails(datum.url.substring(34).replace("/",""))}  className="card" style={{width: "18rem"}}>
+            <div onClick={()=>handleDetails(datum.url.substring(34).replace("/",""))}  className="card" style={{width: "18rem" ,backgroundColor:"#ffe6e6"}}>
             <img style={{height:"200px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${datum.url.substring(34).replace("/","")}.svg`} className="card-img-top" alt="..."></img>
             <div className="card-body">
              <h5 className="card-title">{datum.name}</h5>
