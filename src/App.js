@@ -61,11 +61,11 @@ const [allData,setAllData]=useState({})
         return(
           <div className='col-md-3' style={{marginTop:"10px"}}>
             <div className="card" style={{width: "18rem"}}>
-            <img style={{height:"200px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${datum.url.slice(-3).split("/").join("")}.svg`} className="card-img-top" alt="..."></img>
+            <img style={{height:"200px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${datum.url.substring(34).replace("/","")}.svg`} className="card-img-top" alt="..."></img>
             <div className="card-body">
              <h5 className="card-title">{datum.name}</h5>
              
-             <h6>Id: {datum.url.slice(-3).split("/").join("")}</h6>
+             <h6>Id: {datum.url.substring(34).replace("/","")}</h6>
              <h6>hello</h6>
              
             </div>
