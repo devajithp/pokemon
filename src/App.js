@@ -7,6 +7,10 @@ function App() {
 const [data,setData]=useState()
 const [allData,setAllData]=useState({})
 const[eachData,setEachData]=useState()
+const[search,setSearch]=useState("")
+const[searchPokemon,setSearchPokemon]=useState(false)
+const[errorMessage,setErrorMessage]=useState(false)
+const[loading,setLoading]=useState(false)
   useEffect(()=>
   {
      axios.get("https://pokeapi.co/api/v2/pokemon").then((res)=>
@@ -54,26 +58,68 @@ const[eachData,setEachData]=useState()
   {
     setEachData("")
   }
+  const handleSearch=(e)=>
+  {
+    setSearchPokemon(false)
+    
+      setSearch(e.target.value)
+      setErrorMessage(false)
+     
+  }
+  const handleSubmit=async ()=>
+  {
+    console.log(search)
+    if(search.trim()!=="")
+    {
+      try {
+        setLoading(true)
+       let res= await axios.get(`https://pokeapi.co/api/v2/pokemon/${search}`)
+        if(res.data)
+        {
+          console.log(res.data)
+           
+          setSearchPokemon(res.data)
+          setLoading(false)
+        }
+        else
+        {
+          setErrorMessage("Sorry, pokemon not found")
+          setLoading(false)
+        }
+       } catch (error) {
+         
+         setSearchPokemon(false)
+        
+         setSearch("")
+         setErrorMessage("Sorry, pokemon not found")
+         setLoading(false)
+       }
+    }
+   
+  }
   return (
     <div className="App container">
       <h1 style={{marginTop:"20px"}}>Pokemon</h1>
      <header>
       <div className='row'>
         <div className='col-md-6'>
-        <form className="d-flex" role="search">
-        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-        <button className="btn btn-outline-success" type="submit">Search</button>
-      </form>
+        <form  className="d-flex" role="search">
+        <input value={search} onChange={handleSearch} className="form-control me-2" type="text" placeholder="Search by name or Id" ></input>
+        <button disabled={loading} onClick={handleSubmit} className="btn btn-outline-success" type="button">{loading?<div className="spinner-border" role="status"></div>:"Search"}</button>
+      </form><br></br>
+      {errorMessage && <div class="alert alert-danger" role="alert">
+        {errorMessage}
+      </div>}
         </div>
       </div>
       </header>
       <section style={{marginTop:"20px"}}>
         <div className='row'>
-       { data && data.map((datum,index)=>
+       {!searchPokemon && data && data.map((datum,index)=>
        {
         return(
           <div className='col-md-3' style={{marginTop:"10px"}}>
-            <div onClick={()=>handleDetails(datum.url.substring(34).replace("/",""))}  className="card" style={{width: "18rem" ,backgroundColor:"#ffe6e6"}}>
+            <div onClick={()=>handleDetails(datum.url.substring(34).replace("/",""))}  className="card" style={{width: "18rem" ,backgroundColor:"#ffffcc"}}>
             <img style={{height:"200px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${datum.url.substring(34).replace("/","")}.svg`} className="card-img-top" alt="..."></img>
             <div className="card-body">
              <h5 className="card-title">{datum.name}</h5>
@@ -114,9 +160,26 @@ const[eachData,setEachData]=useState()
        })
 
        }
+       {searchPokemon && <div className='col-md-3'>
+       <div  className="card" style={{width: "18rem" ,backgroundColor:"#ffe6e6"}}>
+            <img style={{height:"200px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${searchPokemon.id}.svg`} className="card-img-top" alt="..."></img>
+            <div className="card-body">
+             <h5 className="card-title">{searchPokemon.name}</h5>
+             <h4 className='text-info'>Stats</h4>
+             <h6>Id: {searchPokemon.id}</h6>
+             <h6>Height: {searchPokemon.height}</h6>
+             <h6>Weight: {searchPokemon.weight}</h6>
+             <h6>Species: {searchPokemon.species.name}</h6>
+             <h6>Base_experience: {searchPokemon.base_experience}</h6>
+             
+             
+            </div>
+             </div>
+          
+       </div>}
        </div>
       </section>
-      <footer style={{marginTop:"20px"}}>
+     {!searchPokemon && <footer style={{marginTop:"20px" , marginBottom:"20px"}}>
         <div className='container'>
            <div className='row'>
              <div className='col-md-6'>
@@ -128,7 +191,7 @@ const[eachData,setEachData]=useState()
            </div>
         </div>
       </footer>
-      
+}
      
     </div>
   );
