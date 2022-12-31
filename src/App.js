@@ -73,7 +73,7 @@ const[loading,setLoading]=useState(false)
     {
       try {
         setLoading(true)
-       let res= await axios.get(`https://pokeapi.co/api/v2/pokemon/${search}`)
+       let res= await axios.get(`https://pokeapi.co/api/v2/pokemon/${search.toLowerCase()}`)
         if(res.data)
         {
           console.log(res.data)
@@ -98,31 +98,51 @@ const[loading,setLoading]=useState(false)
    
   }
   return (
-    <div className="App container">
-      <h1 style={{marginTop:"20px"}}>Pokemon</h1>
-     <header>
+    <div>
+    
+     
+     <header className='position-sticky'>
       <div className='row'>
-        <div className='col-md-6'>
-        <form  className="d-flex" role="search">
-        <input value={search} onChange={handleSearch} className="form-control me-2" type="text" placeholder="Search by name or Id" ></input>
-        <button disabled={loading} onClick={handleSubmit} className="btn btn-outline-success" type="button">{loading?<div className="spinner-border" role="status"></div>:"Search"}</button>
-      </form><br></br>
-      {errorMessage && <div class="alert alert-danger" role="alert">
-        {errorMessage}
-      </div>}
+        <div  style={{backgroundColor:"black"}} className='container d-flex'>
+     <div className='col-md-6 p-4 ' >
+     
+        <div className='d-flex'>
+         
+      <img alt='logo' style={{width:"220px",height:"170px" }} src={"https://www.freepnglogos.com/uploads/black-pokemon-logo-transparent-27.png"}></img>
         </div>
+      
+    </div>
+    
+    </div>
+
+    </div>
+    
+      <div style={{height:"100px",backgroundColor:"#ebebe0"}} className='row '>
+        <div style={{marginLeft:"30px"}} className='col-md-6'>
+        <form style={{marginTop:"30px"}}  className="d-flex" role="search">
+        <input style={{width:"300px"}} value={search} onChange={handleSearch} className="form-control me-2" type="text" placeholder="Search by name or Id" ></input>
+        <button disabled={loading} onClick={handleSubmit} className="btn btn-dark" type="button">{loading?<div className="spinner-border" role="status"></div>:"Search"}</button>
+      </form>
+     
+        </div>
+        
+       
       </div>
       </header>
+      {errorMessage && <div className="alert alert-danger" style={{width:"500px", marginTop:"20px",marginLeft:"100px"}}  role="alert">
+        {errorMessage}
+      </div>}
+      <div className="App container">
       <section style={{marginTop:"20px"}}>
         <div className='row'>
        {!searchPokemon && data && data.map((datum,index)=>
        {
         return(
-          <div className='col-md-3' style={{marginTop:"10px"}}>
+          <div className='col-md-3 ' style={{marginTop:"18px"}}>
             <div onClick={()=>handleDetails(datum.url.substring(34).replace("/",""))}  className="card" style={{width: "18rem" ,backgroundColor:"#ffffcc"}}>
             <img style={{height:"200px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${datum.url.substring(34).replace("/","")}.svg`} className="card-img-top" alt="..."></img>
             <div className="card-body">
-             <h5 className="card-title">{datum.name}</h5>
+             <h5 className="card-title">{datum.name.toUpperCase()}</h5>
              
              <h6>Id: {datum.url.substring(34).replace("/","")}</h6>
              <button data-bs-toggle="modal" data-bs-target="#exampleModal" className='btn btn-outline-success'>Click to open</button>
@@ -134,7 +154,7 @@ const[loading,setLoading]=useState(false)
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
-       {eachData && <h1 className="modal-title fs-5" id="exampleModalLabel">{eachData.name}</h1>} 
+       {eachData && <h1 className="modal-title fs-5" id="exampleModalLabel">{eachData.name.toUpperCase()}</h1>} 
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
@@ -164,7 +184,7 @@ const[loading,setLoading]=useState(false)
        <div  className="card" style={{width: "18rem" ,backgroundColor:"#ffe6e6"}}>
             <img style={{height:"200px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${searchPokemon.id}.svg`} className="card-img-top" alt="..."></img>
             <div className="card-body">
-             <h5 className="card-title">{searchPokemon.name}</h5>
+             <h5 className="card-title">{searchPokemon.name.toUpperCase()}</h5>
              <h4 className='text-info'>Stats</h4>
              <h6>Id: {searchPokemon.id}</h6>
              <h6>Height: {searchPokemon.height}</h6>
@@ -179,20 +199,24 @@ const[loading,setLoading]=useState(false)
        </div>}
        </div>
       </section>
-     {!searchPokemon && <footer style={{marginTop:"20px" , marginBottom:"20px"}}>
-        <div className='container'>
+     {!searchPokemon && 
+     <div className='container'>
+     <footer style={{marginTop:"20px" , marginBottom:"20px"}}>
+        
            <div className='row'>
              <div className='col-md-6'>
-             <button onClick={handlePrevious} className='btn btn-info'>Previous</button>
+             <button onClick={handlePrevious} className='btn btn-dark'><i className="fa fa-angle-double-left"></i></button>
              </div>
-             <div className='col-md-6' style={{paddingLeft:"550px"}}>
-                <button onClick={handleNext} className='btn btn-info'>Next</button>
+             <div className='col-md-6' style={{textAlign:"right"}}>
+                <button onClick={handleNext} className='btn btn-dark'><i className="fa fa-angle-double-right"></i></button>
              </div>
            </div>
-        </div>
+        
       </footer>
+      </div>
 }
      
+    </div>
     </div>
   );
 }
