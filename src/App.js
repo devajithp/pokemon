@@ -103,12 +103,12 @@ const[loading,setLoading]=useState(false)
      
      <header className='position-sticky'>
       <div className='row'>
-        <div  style={{backgroundColor:"black"}} className='container d-flex'>
+        <div  style={{backgroundColor:"black", height:"140px"}} className='container d-flex'>
      <div className='col-md-6 p-4 ' >
      
         <div className='d-flex'>
          
-      <img alt='logo' style={{width:"220px",height:"170px" }} src={"https://www.freepnglogos.com/uploads/black-pokemon-logo-transparent-27.png"}></img>
+      <img alt='logo' style={{width:"220px",height:"170px",marginTop:"-50px" }} src={"https://www.freepnglogos.com/uploads/black-pokemon-logo-transparent-27.png"}></img>
         </div>
       
     </div>
@@ -140,7 +140,7 @@ const[loading,setLoading]=useState(false)
         return(
           <div className='col-md-3 ' style={{marginTop:"18px"}}>
             <div onClick={()=>handleDetails(datum.url.substring(34).replace("/",""))}  className="card" style={{width: "18rem" ,backgroundColor:"#ffffcc"}}>
-            <img style={{height:"200px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${datum.url.substring(34).replace("/","")}.svg`} className="card-img-top" alt="..."></img>
+            <img style={{height:"200px",marginTop:"10px"}} src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${datum.url.substring(34).replace("/","")}.svg`} className="card-img-top" alt="..."></img>
             <div className="card-body">
              <h5 className="card-title">{datum.name.toUpperCase()}</h5>
              
